@@ -24,5 +24,20 @@
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
   },
+  "keywords": [
+    "we.js",
+    "wejs",
+    "plugin",
+    "passport"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wejs/we-plugin-passport-bearer.git"
+  },
+  "author": {
+    "name": "Alberto Souza",
+    "email": "alberto.souza.99@gmail.com",
+    "url": "http://albertosouza.net/"
+  },
   "license": "MIT"
 }
