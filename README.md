@@ -1,14 +1,38 @@
-# we-plugin-passport-token
+# We.js bearer token plugin
 
-> [write something about your plugin here]
+> Authenticate with tokens, use for your single page app
 
-# API
+## Installation
 
+With npm: 
+
+```sh
+npm install we-plugin-passport-bearer
+```
+
+## Configuration
+
+> we-plugin-passport-bearer is plug and play!
+
+## API
+
+Post url to send user `email` and `password` to receive a valid token:
+
+    'post /auth/login-for-token': {
+      controller    : 'passportToken',
+      action        : 'loginForGetToken',
+      responseType  : 'json'
+    }
+
+Then send the token in Authorization header as Bearer token:
+
+```
+Àuthorization=Bearer [token string]
+```
 
 ## Links
 
 > * We.js site: http://wejs.org
 
-#Copyright and license
-
-Copyright 2013-2015 [your name] <[your email@email]> and contributors , under [the MIT license](LICENSE).
+## License
+MIT
