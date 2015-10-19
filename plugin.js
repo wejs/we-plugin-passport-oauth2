@@ -1,7 +1,7 @@
 /**
- * Plugin.js file, set configs, routes, hooks and events here
+ * Plugin.js file for We.js oauth2 token authentication, use for your single page app
  *
- * see http://wejs.org/docs/we/extend.plugin
+ * see http://wejs.org/docs/we/plugin
  */
 
 module.exports = function loadPlugin(projectPath, Plugin) {
@@ -25,11 +25,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-  // ser plugin routes
+  // set plugin routes
   plugin.setRoutes({
     // Return a list of messages between authenticated user and :uid user
     'post /auth/login-for-token': {
-      controller    : 'passportToken',
+      controller    : 'passportOauth2',
       action        : 'loginForGetToken',
       responseType  : 'json'
     }

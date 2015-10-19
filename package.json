@@ -1,6 +1,6 @@
 {
-  "name": "we-plugin-passport-bearer",
-  "description": "We.js passport bearer token plugin",
+  "name": "we-plugin-passport-oauth2",
+  "description": "We.js oauth2 token authentication, use for your single page app",
   "version": "0.3.0",
   "main": "plugin.js",
   "scripts": {
@@ -28,16 +28,17 @@
     "we.js",
     "wejs",
     "plugin",
-    "passport"
+    "passport",
+    "oauth2"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:wejs/we-plugin-passport-bearer.git"
+    "url": "git@github.com:wejs/we-plugin-passport-oauth2"
   },
   "author": {
     "name": "Alberto Souza",
     "email": "alberto.souza.99@gmail.com",
-    "url": "http://albertosouza.net/"
+    "url": "http://albertosouza.net"
   },
   "license": "MIT"
 }

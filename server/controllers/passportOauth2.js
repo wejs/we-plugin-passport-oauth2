@@ -6,7 +6,9 @@ module.exports = {
    */
   loginForGetToken: function loginForGetToken(req, res) {
     var we = req.we;
-    var email = req.body.email;
+    // use email or username params for username field
+    var email = ( req.body.email || req.body.username );
+
     var password = req.body.password;
 
     // build the find user query
@@ -40,7 +42,12 @@ module.exports = {
             we.db.models.accesstoken.create({
               userId: user.id, tokenType: 'passportToken'
             }).then(function (token){
-              res.status(201).send({ user: user, token: token });
+              res.status(201).send({
+                user: user,
+                token: token,
+                access_token: token.token,
+                account_id: user.id
+              });
             }).catch(res.queryError);
           }
         });
