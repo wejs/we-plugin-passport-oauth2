@@ -7,7 +7,7 @@ var we;
 var agent;
 
 describe('we-plugin-passport-tokenFeature', function() {
-  var salvedUser, salvedUserPassword, authenticatedRequest;
+  var salvedUser, salvedUserPassword;
 
   before(function (done) {
     http = helpers.getHttp();
@@ -52,8 +52,8 @@ describe('we-plugin-passport-tokenFeature', function() {
         .end(function (err, res) {
           if (err) throw err;
 
-          assert(res.body.user[0]);
-          assert.equal(res.body.user[0].id, salvedUser.id);
+          assert(res.body.user);
+          assert.equal(res.body.user.id, salvedUser.id);
 
           done();
         });

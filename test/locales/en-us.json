@@ -6,5 +6,20 @@
 	"layout.select.widget.type": "layout.select.widget.type",
 	"Next": "Next",
 	"layout.edit.btn": "layout.edit.btn",
-	"layout.edit.hide.btn": "layout.edit.hide.btn"
+	"layout.edit.hide.btn": "layout.edit.hide.btn",
+	"Login": "Login",
+	"Home": "Home",
+	"Missing credentials": "Missing credentials",
+	"Register": "Register",
+	"auth.forgot-password": "auth.forgot-password",
+	"form-login-email": "form-login-email",
+	"form-placeholder-login-email": "form-placeholder-login-email",
+	"form-helper-login-email": "form-helper-login-email",
+	"form-login-password": "form-login-password",
+	"form-placeholder-login-password": "form-placeholder-login-password",
+	"form-helper-login-password": "form-helper-login-password",
+	"form-login-persistent": "form-login-persistent",
+	"form-login-submit": "form-login-submit",
+	"response.notFound.title": "response.notFound.title",
+	"response.notFound.description": "response.notFound.description"
 }
