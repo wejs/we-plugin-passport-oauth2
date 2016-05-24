@@ -1,44 +1,40 @@
 {
   "name": "we-plugin-passport-oauth2",
   "description": "We.js oauth2 token authentication, use for your single page app",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "main": "plugin.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
-    "prepublish": "npm prune"
+    "coverage": "NODE_ENV=test LOG_LV=info node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/bootstrap.js test/**/*.test.js"
   },
   "dependencies": {
     "oauth20-provider": "^0.6.0",
     "we-passport-http-bearer": "^0.3.1"
   },
   "devDependencies": {
+    "express-mysql-session": "^1.0.0",
     "fs-extra": "^0.18.2",
+    "istanbul": "^0.4.3",
     "mocha": "^2.2.5",
+    "mysql": "^2.10.2",
     "rimraf": "^2.3.4",
     "supertest": "^1.0.1",
-    "we-core": "1.0.1",
-    "we-plugin-form": "0.3.29",
-    "we-theme-admin-default": "wejs/we-theme-admin-default",
-    "we-theme-site-wejs": "wejs/we-theme-site-wejs",
-    "we-test-tools": "0.3.11"
-  },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
+    "we-core": "wejs/we-core",
+    "we-plugin-acl": "wejs/we-plugin-acl",
+    "we-plugin-auth": "wejs/we-plugin-auth",
+    "we-plugin-user": "wejs/we-plugin-user",
+    "we-test-tools": "wejs/we-test-tools"
   },
   "keywords": [
     "we.js",
-    "wejs",
     "plugin",
     "passport",
     "oauth2"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:wejs/we-plugin-passport-oauth2"
-  },
+  "repository": "wejs/we-plugin-passport-oauth2",
   "author": {
     "name": "Alberto Souza",
-    "email": "alberto.souza.99@gmail.com",
+    "email": "contato@albertosouza.net",
     "url": "http://albertosouza.net"
   },
   "license": "MIT"

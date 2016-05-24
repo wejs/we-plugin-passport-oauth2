@@ -7,7 +7,7 @@
 With npm: 
 
 ```sh
-npm install we-plugin-passport-oauth2
+npm install we-plugin-passport-oauth2 we-plugin-auth we-plugin-acl we-plugin-user
 ```
 
 ## Configuration
