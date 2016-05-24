@@ -5,4 +5,5 @@ files/uploads
 .jshintrc
 .travis.yml
 .gitignore
+.coverage
 *.log
