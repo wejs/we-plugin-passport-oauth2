@@ -46,9 +46,12 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   plugin.events.on('we:after:load:plugins', function(we) {
     we.auth.findUserWIthAccessToken = function findUserWIthAccessToken(token, done) {
-      return we.db.models.accesstoken.find({ where: {
-        token: token, isValid: true
-      }}).then(function (tokenObj) {
+      return we.db.models.accesstoken.findOne({
+        where: {
+          token: token, isValid: true
+        }
+      })
+      .then(function (tokenObj) {
         if (!tokenObj) return done(null, false);
 
         var accessTokenTime = we.config.passport.accessTokenTime;
@@ -56,9 +59,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         var notIsExpired = we.auth.util.checkIfTokenIsExpired(tokenObj, accessTokenTime);
         if (!notIsExpired) return done(null, false);
 
-        we.db.models.user.find({
-          where: {id: tokenObj.userId},
-          include: [ { model: we.db.models.role, as: 'roles'} ]
+        we.db.models.user.findOne({
+          where: { id: tokenObj.userId }
         }).then(function (user) {
           if (!user) return done(null, false);
           // TODO add suport to scopes
