@@ -1,13 +1,15 @@
 # We.js oauth2 authentication plugin with suport to bearer token
 
-> Authenticate with bearer tokens, use for your single page app
+Authenticate with bearer tokens, use for your single page app
+
+Powered by **oauth20-provider**
 
 ## Installation
 
 With npm: 
 
 ```sh
-npm install we-plugin-passport-oauth2 we-plugin-auth we-plugin-acl we-plugin-user
+npm install --save we-plugin-passport-oauth2 we-plugin-auth we-plugin-acl we-plugin-user
 ```
 
 ## Configuration
@@ -18,23 +20,12 @@ For all avaible settings see: https://github.com/wejs/we-plugin-passport-oauth2/
 
 ## API
 
-Post url to send user `email` and `password` to receive a valid token:
-
-    'post /auth/login-for-token': {
-      controller    : 'passportToken',
-      action        : 'loginForGetToken',
-      responseType  : 'json'
-    }
-
-Then send the token from your client side application in Authorization header as Bearer token:
-
-```
-Àuthorization=Bearer [token string]
-```
+See: plugins.js file or tests in this repository
 
 ## Links
 
 > * We.js site: http://wejs.org
 
 ## License
+
 MIT
