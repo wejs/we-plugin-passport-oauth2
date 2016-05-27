@@ -6,7 +6,6 @@ var query = require('querystring');
 var app;
 var we, agent, clients= [], salvedUser, salvedUserPassword;
 
-
 describe('Implicit Grant Type ',function() {
 
   before(function (done) {
