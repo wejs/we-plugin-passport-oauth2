@@ -5,5 +5,7 @@
   "oauth2Client.actions": "Actions",
 
   "oauth2Client.find": "Oauth clients",
-  "oauth2Client.findOne": "Oauth client"
+  "oauth2Client.findOne": "Oauth client",
+
+  "oauth2.decision.message": "Hi <strong>{{user.displayName}}</strong>,<br> Client with name <strong>{{client.name}}</strong> and id {{client.id}} asks for access. <br> Scope asked: <strong>{{scopes}}</strong> <br>"
 }

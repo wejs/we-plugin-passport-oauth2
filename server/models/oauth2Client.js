@@ -8,6 +8,12 @@
 module.exports = function (we) {
   var model = {
     definition: {
+      id: {
+        type: we.db.Sequelize.UUID,
+        defaultValue: we.db.Sequelize.UUIDV4,
+        primaryKey: true,
+        formFieldType: null
+      },
       name: {
         type: we.db.Sequelize.STRING(256),
         allowNull: false

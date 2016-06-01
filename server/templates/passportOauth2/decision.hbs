@@ -1,0 +1,12 @@
+<p class='oauth2-message'>
+{{{t 'oauth2.decision.message' client=oauthClient user=user scopes=scopes}}}
+</p>
+
+<form method="POST">
+  <input type="hidden" name="decision" value="1" />
+  <input type="submit" value="Authorize" />
+</form>
+<form method="POST">
+  <input type="hidden" name="decision" value="0" />
+  <input type="submit" value="Cancel" />
+</form>

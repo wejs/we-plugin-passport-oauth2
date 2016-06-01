@@ -271,23 +271,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     oauth2.model.code.checkTTL = function checkTTL(code) {
       return (code.ttl > new Date().getTime());
     };
-
-    // Decision controller
+    // Decision controller, pipe to we.js controller
     oauth2.decision = function decision(req, res, client, scope, user) {
-      var html = [
-        'Currently your are logged with id = ' + req.oauth2.model.user.getId(user),
-        'Client with id ' + req.oauth2.model.client.getId(client) + ' asks for access',
-        'Scope asked ' + scope.join(),
-        '<form method="POST">',
-        '<input type="hidden" name="decision" value="1" />',
-        '<input type="submit" value="Authorize" />',
-        '</form>',
-        '<form method="POST">',
-        '<input type="hidden" name="decision" value="0" />',
-        '<input type="submit" value="Cancel" />',
-        '</form>'
-      ];
-      res.send(html.join('<br />'));
+      req.we.controllers.passportOauth2.decision(req, res, client, scope, user);
     };
 
     we.express.use(oauth2.inject());
