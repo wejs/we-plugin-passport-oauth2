@@ -8,8 +8,7 @@
     "coverage": "NODE_ENV=test LOG_LV=info node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/bootstrap.js test/**/*.test.js"
   },
   "dependencies": {
-    "oauth20-provider": "^0.6.0",
-    "we-passport-http-bearer": "^0.3.1"
+    "oauth20-provider": "^0.6.0"
   },
   "devDependencies": {
     "express-mysql-session": "^1.0.0",

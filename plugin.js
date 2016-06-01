@@ -19,22 +19,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.setConfigs({
     oauth2: {
       redirectToLoginUrl: '/login'
-    },
-    // passport: {
-    //   strategies: {
-    //     bearer: {
-    //       Strategy: require('we-passport-http-bearer'),
-    //       session: false,
-
-    //       usernameField: 'email',
-    //       passwordField: 'password',
-
-    //       findUser: function findUserAndValidPassword(token, done) {
-    //         this.we.auth.findUserWIthAccessToken(token, done);
-    //       }
-    //     }
-    //   }
-    // }
+    }
   });
 
   plugin.setResource({
@@ -43,12 +28,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   // set plugin routes
   plugin.setRoutes({
-    // Return a list of messages between authenticated user and :uid user
-    // 'post /auth/login-for-token': {
-    //   controller    : 'passportOauth2',
-    //   action        : 'loginForGetToken',
-    //   responseType  : 'json'
-    // },
     'post /oauth2/token': {
       controller    : 'passportOauth2',
       action        : 'token',
@@ -116,32 +95,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     //   breadcrumbHandler: 'findOne'
     // }
   });
-
-  // plugin.events.on('we:after:load:plugins', function(we) {
-  //   we.auth.findUserWIthAccessToken = function findUserWIthAccessToken(token, done) {
-  //     return we.db.models.accesstoken.findOne({
-  //       where: {
-  //         token: token, isValid: true
-  //       }
-  //     })
-  //     .then(function (tokenObj) {
-  //       if (!tokenObj) return done(null, false);
-
-  //       var accessTokenTime = we.config.passport.accessTokenTime;
-
-  //       var notIsExpired = we.auth.util.checkIfTokenIsExpired(tokenObj, accessTokenTime);
-  //       if (!notIsExpired) return done(null, false);
-
-  //       we.db.models.user.findOne({
-  //         where: { id: tokenObj.userId }
-  //       }).then(function (user) {
-  //         if (!user) return done(null, false);
-  //         // TODO add suport to scopes
-  //         return done(null, user, { scope: 'all' });
-  //       });
-  //     });
-  //   }
-  // });
 
   plugin.events.on('we:after:load:express', function afterLoadExpress(we) {
     // Set client methods
