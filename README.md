@@ -2,6 +2,8 @@
 
 Authenticate with bearer tokens, use for your single page app
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/2000px-Oauth_logo.svg.png" width="200px">
+
 Powered by **oauth20-provider**
 
 ## Installation
