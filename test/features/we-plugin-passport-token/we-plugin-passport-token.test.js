@@ -26,57 +26,6 @@ describe('we-plugin-passport-tokenFeature', function() {
   });
 
   describe('API', function () {
-    it ('post /auth/login-for-token it authenticate with valid user creds', function(done){
 
-      request(http)
-      .post('/auth/login-for-token')
-      .send({
-        email: salvedUser.email,
-        password: salvedUserPassword
-      })
-      .expect(201)
-      .end(function (err, res) {
-        if (err) throw err;
-
-        assert(res.body.user);
-        assert.equal(res.body.user.id, salvedUser.id);
-        assert(res.body.token);
-        assert(res.body.token.token);
-        assert.equal(res.body.token.tokenType, 'passportToken');
-
-        request(http)
-        .get('/account')
-        .set('Authorization', 'Bearer ' + res.body.token.token)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function (err, res) {
-          if (err) throw err;
-
-          assert(res.body.user);
-          assert.equal(res.body.user.id, salvedUser.id);
-
-          done();
-        });
-      });
-
-    });
-
-    it ('post /auth/login-for-token should return error with wrong password', function(done){
-
-      request(http)
-      .post('/auth/login-for-token')
-      .send({
-        email: salvedUser.email,
-        password: 'somethingworkng'
-      })
-      .expect(400)
-      .end(function (err, res) {
-        if (err) throw err;
-        assert(!res.body.user);
-        assert(!res.body.token);
-        assert.equal(res.body.message, 'auth.login.user.incorrect.password.or.email');
-        done();
-      });
-    });
   });
 });

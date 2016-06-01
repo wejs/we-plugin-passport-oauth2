@@ -1,0 +1,9 @@
+{
+  "oauth2Client.id": "Id",
+  "oauth2Client.name": "Name",
+  "oauth2Client.redirectUri": "Redirect URI",
+  "oauth2Client.actions": "Actions",
+
+  "oauth2Client.find": "Oauth clients",
+  "oauth2Client.findOne": "Oauth client"
+}

@@ -12,66 +12,138 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   var plugin = new Plugin(__dirname);
 
-  var oauth2 = new Oauth2lib({log: {level: 2}});
+  var oauth2 = new Oauth2lib({log: { level: 2 }});
   // save oauth 2 ref in plugin
   plugin.oauth2 = oauth2;
   // set plugin configs
   plugin.setConfigs({
-    passport: {
-      strategies: {
-        bearer: {
-          Strategy: require('we-passport-http-bearer'),
-          session: false,
+    oauth2: {
+      redirectToLoginUrl: '/login'
+    },
+    // passport: {
+    //   strategies: {
+    //     bearer: {
+    //       Strategy: require('we-passport-http-bearer'),
+    //       session: false,
 
-          usernameField: 'email',
-          passwordField: 'password',
+    //       usernameField: 'email',
+    //       passwordField: 'password',
 
-          findUser: function findUserAndValidPassword(token, done) {
-            this.we.auth.findUserWIthAccessToken(token, done);
-          }
-        }
-      }
-    }
+    //       findUser: function findUserAndValidPassword(token, done) {
+    //         this.we.auth.findUserWIthAccessToken(token, done);
+    //       }
+    //     }
+    //   }
+    // }
+  });
+
+  plugin.setResource({
+    name: 'oauth2Client'
   });
 
   // set plugin routes
   plugin.setRoutes({
     // Return a list of messages between authenticated user and :uid user
-    'post /auth/login-for-token': {
+    // 'post /auth/login-for-token': {
+    //   controller    : 'passportOauth2',
+    //   action        : 'loginForGetToken',
+    //   responseType  : 'json'
+    // },
+    'post /oauth2/token': {
       controller    : 'passportOauth2',
-      action        : 'loginForGetToken',
-      responseType  : 'json'
-    }
+      action        : 'token',
+      permission    : true
+    },
+    'get /oauth2/authorization': {
+      controller    : 'passportOauth2',
+      action        : 'authorization',
+      permission    : true
+    },
+    'post /oauth2/authorization': {
+      controller    : 'passportOauth2',
+      action        : 'authorization',
+      permission    : true
+    },
+    // // list clients
+    // 'get /oauth/client': {
+    //   name          : 'oauth2Client.find',
+    //   controller    : 'oauth2Client',
+    //   action        : 'find',
+    //   model         : 'oauth2Client',
+    //   permission    : 'find_oauth2Client',
+    //   template      :  'oauth2Client/find',
+    //   titleHandler: 'i18n',
+    //   titleI18n: 'oauth2Client.find',
+    //   breadcrumbHandler: 'find'
+    // },
+    // // create
+    // 'post /oauth/client': {
+    //   action: 'create',
+    //   controller: 'oauth2Client',
+    //   model: 'oauth2Client',
+    //   permission: 'create_oauth2Client',
+    //   responseType  : 'json'
+    // },
+    // // update
+    // 'put /oauth/client/:oauth2ClientId': {
+    //   resourceName  : 'oauth2Client',
+    //   controller    : 'oauth2Client',
+    //   action        : 'edit',
+    //   model         : 'oauth2Client',
+    //   permission    : 'update_oauth2Client',
+    //   responseType  : 'json'
+    // },
+    // // delete
+    // 'delete /oauth/client/:oauth2ClientId': {
+    //   resourceName  : 'oauth2Client',
+    //   controller    : 'oauth2Client',
+    //   action        : 'delete',
+    //   model         : 'oauth2Client',
+    //   permission    : 'delete_oauth2Client',
+    //   responseType  : 'json'
+    // },
+
+    // 'get /oauth/client/:oauth2ClientId': {
+    //   resourceName: 'oauth2Client',
+    //   name: 'oauth2Client.findOne',
+    //   action: 'findOne',
+    //   controller: 'oauth2Client',
+    //   model: 'oauth2Client',
+    //   template: 'oauth2Client/findOne',
+    //   permission: 'find_oauth2Client',
+    //   titleHandler: 'i18n',
+    //   titleI18n: 'oauth2Client.findOne',
+    //   breadcrumbHandler: 'findOne'
+    // }
   });
 
-  plugin.events.on('we:after:load:plugins', function(we) {
-    we.auth.findUserWIthAccessToken = function findUserWIthAccessToken(token, done) {
-      return we.db.models.accesstoken.findOne({
-        where: {
-          token: token, isValid: true
-        }
-      })
-      .then(function (tokenObj) {
-        if (!tokenObj) return done(null, false);
+  // plugin.events.on('we:after:load:plugins', function(we) {
+  //   we.auth.findUserWIthAccessToken = function findUserWIthAccessToken(token, done) {
+  //     return we.db.models.accesstoken.findOne({
+  //       where: {
+  //         token: token, isValid: true
+  //       }
+  //     })
+  //     .then(function (tokenObj) {
+  //       if (!tokenObj) return done(null, false);
 
-        var accessTokenTime = we.config.passport.accessTokenTime;
+  //       var accessTokenTime = we.config.passport.accessTokenTime;
 
-        var notIsExpired = we.auth.util.checkIfTokenIsExpired(tokenObj, accessTokenTime);
-        if (!notIsExpired) return done(null, false);
+  //       var notIsExpired = we.auth.util.checkIfTokenIsExpired(tokenObj, accessTokenTime);
+  //       if (!notIsExpired) return done(null, false);
 
-        we.db.models.user.findOne({
-          where: { id: tokenObj.userId }
-        }).then(function (user) {
-          if (!user) return done(null, false);
-          // TODO add suport to scopes
-          return done(null, user, { scope: 'all' });
-        });
-      });
-    }
-  });
+  //       we.db.models.user.findOne({
+  //         where: { id: tokenObj.userId }
+  //       }).then(function (user) {
+  //         if (!user) return done(null, false);
+  //         // TODO add suport to scopes
+  //         return done(null, user, { scope: 'all' });
+  //       });
+  //     });
+  //   }
+  // });
 
   plugin.events.on('we:after:load:express', function afterLoadExpress(we) {
-
     // Set client methods
     oauth2.model.client.getId = function getId(client) {
       return client.id;
@@ -112,7 +184,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       }).catch(cb);
     };
     oauth2.model.user.fetchFromRequest = function fetchFromRequest(req) {
-      return req.session.user;
+      return req.user;
     };
     oauth2.model.user.checkPassword = function checkPassword(user, password, cb) {
       user.verifyPassword(password, cb);
@@ -210,7 +282,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     oauth2.model.code.create = function createCode(userId, clientId, scope, ttl, cb) {
       var code = crypto.randomBytes(32).toString('hex');
       // var ttl = new Date().getTime() + ttl * 1000;
-
       we.db.models.oauth2Code.create({
         code: code,
         userId: userId,
@@ -268,49 +339,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
     we.express.use(oauth2.inject());
 
-    we.express.post('/oauth2/token', oauth2.controller.token);
-    we.express.get('/oauth2/authorization', isAuthorized, oauth2.controller.authorization, function (req, res) {
-      console.log('>><<<')
-      // Render our decision page
-      // Look into ./test/server for further information
-      res.render('authorization', {layout: false});
-    });
-    we.express.post('/oauth2/authorization', isAuthorized, oauth2.controller.authorization);
-
-    // Define user login routes
-    we.express.get('/oauth2/login', function(req, res) {
-        res.render('login', {layout: false});
-    });
-
-    we.express.post('/oauth2/login', function(req, res, next) {
-      var backUrl = req.query.backUrl ? req.query.backUrl : '/';
-      delete(req.query.backUrl);
-      backUrl += backUrl.indexOf('?') > -1 ? '&' : '?';
-      backUrl += query.stringify(req.query);
-
-      // Already logged in
-      if (req.session.authorized) res.redirect(backUrl);
-      // Trying to log in
-      else if (req.body.username && req.body.password) {
-        oauth2.model.user.fetchByUsername(req.body.username, function(err, user) {
-          if (err) next(err);
-          else {
-            oauth2.model.user.checkPassword(user, req.body.password, function(err, valid) {
-                if (err) next(err);
-                else if (!valid) res.redirect(req.url);
-                else {
-                  req.session.user = user;
-                  req.session.authorized = true;
-                  res.redirect(backUrl);
-                }
-            });
-          }
-        });
-      }
-      // Please login
-      else res.redirect(req.url);
-    });
-
     if (we.env == 'test') {
       // Some secure method
       we.express.get('/oauth2/secure', oauth2.middleware.bearer, function (req, res) {
@@ -320,33 +348,41 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       });
     }
 
-
-    function isAuthorized(req, res, next) {
-      if (req.session.authorized) next();
-      else {
+    oauth2.isAuthorized = function isAuthorized(req, res, next) {
+      if (req.isAuthenticated()) {
+        next();
+      } else {
         var params = req.query;
         params.backUrl = req.path;
-        res.redirect('/oauth2/login?' + query.stringify(params));
+        res.redirect(
+          we.config.oauth2.redirectToLoginUrl+'?'+query.stringify(params)
+        );
       }
     }
 
-  });
+    we.express.post('/login', function beforeLogin(req, res, next) {
+      if (!req.query.redirect_uri) return next();
 
-  plugin.events.on('we:after:load:passport', function afterLoadPassport(we) {
-    we.express.use(function(req, res, next) {
-      // skip if already authenticated
-      if (req.isAuthenticated()) return next();
-      we.passport.authenticate('bearer', { session: false }, function (err, user) {
-        if (err) return next(err);
-        req.user = user;
+      we.db.models.oauth2Client
+      .findById(req.query.client_id)
+      .then(function afterFind(c) {
+        if (!c) return res.notFound();
+        if (c.redirectUri != req.query.redirect_uri)
+          return res.badRequest();
+        // valid oauth2Client
+        res.locals.oauth2Client = c;
+
+        var backUrl = req.query.backUrl ? req.query.backUrl : '/';
+        delete(req.query.backUrl);
+        backUrl += backUrl.indexOf('?') > -1 ? '&' : '?';
+        backUrl += query.stringify(req.query);
+
+        res.locals.redirectTo = backUrl;
+
         next();
-      })(req, res, next);
+      })
+      .catch(next);
     })
-  });
-
-  plugin.addJs('we.oauth2.io', {
-    type: 'plugin', weight: 11, pluginName: 'we-plugin-passport-oauth2',
-    path: 'files/public/we.oauth2.js'
   });
 
   return plugin;

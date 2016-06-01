@@ -33,7 +33,6 @@ describe('Implicit Grant Type ',function() {
           redirectUri:    'http://example.org/oauth2'
         },
         {
-
           name:           'client2.name',
           secret:         'client2.Secret',
           redirectUri:    'http://example.org/oauth2'
@@ -53,16 +52,9 @@ describe('Implicit Grant Type ',function() {
         }, done);
        }
     ], done);
-
   });
 
-
-  var
-    loginUrl,
-    authorizationUrl,
-    cookie,
-    accessToken;
-
+  var loginUrl, authorizationUrl, cookie, accessToken;
   var cookiePattern = new RegExp('wejs.sid=(.*?);');
 
   it('GET /oauth2/authorization with response_type="token" expect login form redirect', function(done) {
@@ -74,7 +66,11 @@ describe('Implicit Grant Type ',function() {
     }))
     .expect('Location', new RegExp('login'))
     .expect(302, function(err, res) {
-      if (err) return done(err);
+      if (err) {
+        console.error(res.headers);
+        return done(err);
+      }
+
       loginUrl = res.headers.location;
       done();
     });
@@ -83,12 +79,15 @@ describe('Implicit Grant Type ',function() {
   it('POST /oauth2/login authorize', function(done) {
     request(app)
     .post(loginUrl)
-    .send({ username: salvedUser.email, password: salvedUserPassword })
+    .send({ email: salvedUser.email, password: salvedUserPassword })
     .expect('Location', new RegExp('authorization'))
     .set('Accept', 'application/json')
     .expect(302, function (err, res) {
-      console.log(res.text)
-      if (err) return done(err);
+      if (err) {
+        console.log('res.text>', res.text)
+        console.error('res.headers>', res.headers);
+        return done(err);
+      }
       authorizationUrl = res.headers.location;
       cookie = cookiePattern.exec(res.headers['set-cookie'][0])[0];
       done();
@@ -99,8 +98,13 @@ describe('Implicit Grant Type ',function() {
     request(app)
     .get(authorizationUrl)
     .set('Cookie', cookie)
-    .expect(200, function(err) {
-      if (err) return done(err);
+    .expect(200, function(err, res) {
+      if (err) {
+        console.log(authorizationUrl);
+        console.log(res.text);
+        console.log(res.headers);
+        return done(err);
+      }
       done();
     });
   });

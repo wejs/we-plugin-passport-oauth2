@@ -1,0 +1,31 @@
+<div class="actions">
+{{we-action-create-btn 'oauth2Client' req}}
+</div>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>{{t 'oauth2Client.id'}}</th>
+      <th>{{t 'oauth2Client.name'}}</th>
+      <th>{{t 'oauth2Client.redirectUri'}}</th>
+      <th>{{t 'oauth2Client.actions'}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{name}}</td>
+      <td>{{redirectUri}}</td>
+      <td>
+        {{we-action-edit-btn 'oauth2Client' this ../req id}}
+        {{we-action-delete-btn 'oauth2Client' this ../req id}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <td colspan="4">
+      {{paginate count=metadata.count limit=query.limit currentPage=query.page req=req}}
+    </td>
+  </tfoot>
+</table>

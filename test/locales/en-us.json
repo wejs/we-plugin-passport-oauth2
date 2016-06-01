@@ -21,5 +21,7 @@
 	"form-login-persistent": "form-login-persistent",
 	"form-login-submit": "form-login-submit",
 	"response.notFound.title": "response.notFound.title",
-	"response.notFound.description": "response.notFound.description"
+	"response.notFound.description": "response.notFound.description",
+	"response.serveError.title": "response.serveError.title",
+	"response.forbidden.title": "response.forbidden.title"
 }

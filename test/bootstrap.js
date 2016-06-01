@@ -21,6 +21,8 @@ before(function(callback) {
     } , function(err, we) {
       if (err) throw err;
 
+      we.plugins['we-plugin-passport-oauth2'] = we.plugins.project;
+
       we.startServer(function(err) {
         if (err) throw err;
         callback();
