@@ -46,7 +46,7 @@ module.exports = function (we) {
 
           if (res.locals.id) {
             return this.findOne({
-              where: { id: res.locals.id},
+              where: { id: req.params.oauth2ClientId },
               include: [{ all: true }]
             })
             .then(function afterFind(record) {

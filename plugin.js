@@ -23,7 +23,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
 
   plugin.setResource({
-    name: 'oauth2Client'
+    name: 'oauth2Client',
+    idFormat: 'Id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})'
   });
 
   // set plugin routes
