@@ -11,7 +11,7 @@ Powered by **oauth20-provider**
 With npm: 
 
 ```sh
-npm install --save we-plugin-passport-oauth2 we-plugin-auth we-plugin-acl we-plugin-user
+we i we-plugin-passport-oauth2
 ```
 
 ## Configuration
